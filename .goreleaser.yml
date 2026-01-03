@@ -39,7 +39,7 @@ builds:
       - -trimpath
 
 checksum:
-  name_template: "checksums.txt"
+  name_: "checksums.txt"
 
 changelog:
   use: git
@@ -126,7 +126,8 @@ archives:
       {{- .ProjectName }}_
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
-      {{- else }}{{ .Arch }}{{ end }}
+      {{- else }}{{ .Arch }}{{ end }}_
+      {{- .Date }}
     formats:
       - tar.gz
     format_overrides:
@@ -137,70 +138,7 @@ archives:
       - README.md
       - LICENSE
 
-
-homebrew_casks:
-  - name: nanoproxy
-    repository:
-      owner: ryanbekhen
-      name: homebrew-nanoproxy
-    directory: Casks
-    homepage: https://github.com/ryanbekhen/nanoproxy
-    description: "Simple Socks5 Proxy written in Go"
-    license: "MIT"
-
-winget:
-  - name: nanoproxy
-    publisher: ryanbekhen
-    license: MIT
-    homepage: https://github.com/ryanbekhen/nanoproxy
-    short_description: "Simple Socks5 Proxy written in Go"
-    tags:
-      - Proxy
-      - Socks5
-    repository:
-      owner: ryanbekhen
-      name: nanoproxy-winget-pkgs
-      branch: "nanoproxy-{{ .Version }}"
-      pull_request:
-        enabled: true
-        draft: true
-        base:
-          owner: microsoft
-          name: winget-pkgs
-          branch: master
-
-nfpms:
-  - id: packages
-    file_name_template: "{{ .ConventionalFileName }}"
-    homepage: https://github.com/ryanbekhen/nanoproxy
-    description: "Simple Socks5 Proxy written in Go"
-    maintainer: "Achmad Irianto Eka Putra <i@ryanbekhen.dev>"
-    license: "MIT"
-    vendor: ryanbekhen
-    bindir: /usr/bin
-    section: utils
-    contents:
-      - src: systemd/nanoproxy.service
-        dst: /etc/systemd/system/nanoproxy.service
-        type: "config|noreplace"
-      - src: config/nanoproxy
-        dst: /etc/nanoproxy/nanoproxy
-        type: "config|noreplace"
-    formats:
-      - deb
-      - rpm
-    deb:
-      lintian_overrides:
-        - statically-linked-binary
-        - changelog-file-missing-in-native-package
-
-publishers:
-  - name: fury.io
-    ids:
-      - packages
-    dir: "{{ dir .ArtifactPath }}"
-    cmd: curl -F package=@{{ .ArtifactName }} https://{{ .Env.FURY_TOKEN }}@push.fury.io/ryanbekhen/
-
 release:
 
   name_template: "{{ .Version }}"
+
