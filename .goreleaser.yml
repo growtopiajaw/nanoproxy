@@ -124,7 +124,7 @@ archives:
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else }}{{ .Arch }}{{ end }}_
-      {{- .Date }}
+      {{- .Timestamp }}
     formats:
       - tar.gz
     format_overrides:
