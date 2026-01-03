@@ -38,9 +38,6 @@ builds:
     flags:
       - -trimpath
 
-checksum:
-  name_: "checksums.txt"
-
 changelog:
   use: git
   sort: asc
@@ -141,4 +138,5 @@ archives:
 release:
 
   name_template: "{{ .Version }}"
+
 
